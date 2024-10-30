@@ -6,25 +6,31 @@ import moyeothon.Team11_TwoAmpersandStar.member.api.dto.response.MemberLoginResD
 import moyeothon.Team11_TwoAmpersandStar.member.application.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/members")
+@RequestMapping()
 public class MemberController {
+
     private final MemberService memberService;
 
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 
-    @PostMapping()
+    @PostMapping("/register")
     public ResponseEntity<String> join(@RequestBody MemberCreateReqDto memberCreateReqDto) {
         memberService.join(memberCreateReqDto);
         return new ResponseEntity<>("회원가입", HttpStatus.CREATED);
     }
 
-    @GetMapping()
-    public ResponseEntity<MemberLoginResDto> login(@RequestBody MemberLoginReqDto memberLoginReqDto) {
+    @GetMapping("/login")
+    public ResponseEntity<MemberLoginResDto> login(
+        @RequestBody MemberLoginReqDto memberLoginReqDto) {
         MemberLoginResDto memberLoginResDto = memberService.login(memberLoginReqDto);
         return new ResponseEntity<>(memberLoginResDto, HttpStatus.OK);
     }
