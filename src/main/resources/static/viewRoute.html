@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>실시간 위치 추적 및 경로 보기</title>
+  <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=6ee40960f56c83c4e7d4c2e6e3dacd0f&libraries=drawing"></script>
+  <style>
+    #map {
+      width: 100%;
+      height: 400px;
+    }
+  </style>
+</head>
+<body>
+<h1>실시간 위치 추적 및 경로 보기</h1>
+<label for="routeId">경로 ID:</label>
+<input type="number" id="routeId" placeholder="ID 입력">
+<button onclick="loadRoute()">경로 보기</button>
+
+<div id="map"></div>
+
+<script>
+  let map;
+  let userMarker;
+  let currentPolyline;  // 현재 경로를 나타내는 Polyline 객체를 저장할 변수
+
+  // 사용자의 실시간 위치를 추적하여 지도와 마커를 업데이트
+  function trackUserLocation() {
+    if (!navigator.geolocation) {
+      alert("이 브라우저에서는 GPS가 지원되지 않습니다.");
+      return;
+    }
+
+    navigator.geolocation.watchPosition(
+      (position) => {
+        const userPosition = new kakao.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        // 지도와 마커 초기화 또는 위치 업데이트
+        if (!map) {
+          const mapOptions = {
+            center: userPosition,
+            level: 3
+          };
+          map = new kakao.maps.Map(document.getElementById('map'), mapOptions);
+
+          userMarker = new kakao.maps.Marker({
+            position: userPosition,
+            map: map
+          });
+        } else {
+          // 기존 마커 위치 업데이트 및 지도 이동
+          userMarker.setPosition(userPosition);
+          map.panTo(userPosition);
+        }
+      },
+      (error) => {
+        alert("GPS 권한이 필요합니다.");
+        console.error("GPS 오류:", error);
+      },
+      {
+        enableHighAccuracy: true,  // 높은 정확도로 위치 추적
+        maximumAge: 0,             // 이전 위치 데이터 사용 안 함
+        timeout: 1000              // 1초마다 위치 업데이트 요청
+      }
+    );
+  }
+
+  // 지정된 경로를 불러와 지도에 표시
+  function loadRoute() {
+    console.log("loadRoute 호출됨"); // 디버깅 로그
+    const routeId = document.getElementById('routeId').value;
+
+    if (!routeId) {
+      alert("경로 ID를 입력하세요.");
+      return;
+    }
+
+    fetch(`/api/routes/${routeId}`)
+      .then(response => {
+        if (!response.ok) throw new Error("경로 로드 오류");
+        return response.json();
+      })
+      .then(route => {
+        if (!route.pathData) {
+          throw new Error("경로 데이터가 존재하지 않습니다.");
+        }
+
+        const pathData = JSON.parse(route.pathData);
+        const points = pathData[0].points.map(coord => new kakao.maps.LatLng(coord.y, coord.x));
+
+        document.getElementById('map').style.display = 'block';
+
+        if (!map) {
+          // 경로 데이터를 첫 위치로 초기 지도 설정
+          const mapOptions = {
+            center: points[0],
+            level: 3
+          };
+          map = new kakao.maps.Map(document.getElementById('map'), mapOptions);
+
+          userMarker = new kakao.maps.Marker({
+            position: points[0],
+            map: map
+          });
+        }
+
+        // 기존 경로가 있다면 지도에서 삭제
+        if (currentPolyline) {
+          currentPolyline.setMap(null);
+        }
+
+        // 새 경로를 지도에 표시하고 저장
+        currentPolyline = new kakao.maps.Polyline({
+          path: points,
+          map: map
+        });
+        console.log("경로가 성공적으로 표시되었습니다."); // 디버깅 로그
+      })
+      .catch(error => {
+        console.error("경로 로드 오류:", error);
+        alert("해당 ID의 경로를 찾을 수 없습니다.");
+      });
+  }
+
+  // 페이지가 로드되면 사용자 위치 추적 시작
+  document.addEventListener("DOMContentLoaded", trackUserLocation);
+</script>
+</body>
+</html>
