@@ -10,10 +10,8 @@ import moyeothon.Team11_TwoAmpersandStar.member.exception.InvalidMemberException
 import moyeothon.Team11_TwoAmpersandStar.member.exception.NotFoundMemberException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@Transactional(readOnly = true)
 public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -25,7 +23,6 @@ public class MemberService {
         this.tokenProvider = tokenProvider;
     }
 
-    @Transactional
     public void join(MemberCreateReqDto memberCreateReqDto) {
         if (memberRepository.existsByEmail(memberCreateReqDto.email())) {
             throw new InvalidMemberException("이미 존재하는 이메일입니다.");
