@@ -1,11 +1,12 @@
-package moyeothon.Team11_TwoAmpersandStar.service;
+package moyeothon.Team11_TwoAmpersandStar.route.application;
+
 
 import java.util.List;
 import java.util.stream.Collectors;
-import moyeothon.Team11_TwoAmpersandStar.dto.RouteRequest;
-import moyeothon.Team11_TwoAmpersandStar.dto.RouteResponse;
-import moyeothon.Team11_TwoAmpersandStar.entity.Route;
-import moyeothon.Team11_TwoAmpersandStar.repository.RouteRepository;
+import moyeothon.Team11_TwoAmpersandStar.route.api.dto.request.RouteRequest;
+import moyeothon.Team11_TwoAmpersandStar.route.api.dto.response.RouteResponse;
+import moyeothon.Team11_TwoAmpersandStar.route.domain.Route;
+import moyeothon.Team11_TwoAmpersandStar.route.domain.repository.RouteRepository;
 import org.springframework.stereotype.Service;
 
 @Service

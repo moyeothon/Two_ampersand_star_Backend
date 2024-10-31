@@ -1,6 +1,6 @@
-package moyeothon.Team11_TwoAmpersandStar.repository;
+package moyeothon.Team11_TwoAmpersandStar.route.domain.repository;
 
-import moyeothon.Team11_TwoAmpersandStar.entity.Route;
+import moyeothon.Team11_TwoAmpersandStar.route.domain.Route;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

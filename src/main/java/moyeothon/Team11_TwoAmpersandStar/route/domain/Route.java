@@ -1,11 +1,11 @@
-package moyeothon.Team11_TwoAmpersandStar.entity;
+package moyeothon.Team11_TwoAmpersandStar.route.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
-import moyeothon.Team11_TwoAmpersandStar.dto.RouteResponse;
+import moyeothon.Team11_TwoAmpersandStar.route.api.dto.response.RouteResponse;
 
 @Entity
 public class Route {
