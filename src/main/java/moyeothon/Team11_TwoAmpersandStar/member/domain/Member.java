@@ -57,9 +57,6 @@ public class Member {
         return pwd;
     }
 
-    private boolean isPasswordMatching(String checkPwd) {
-        return this.pwd.equals(checkPwd);
-    }
 /*
     public void update(MemberUpdateReqDto memberUpdateReqDto) {
         this.nickName = nickName;

@@ -29,6 +29,9 @@ public class MemberService {
         if (memberRepository.existsByEmail(memberCreateReqDto.email())) {
             throw new InvalidMemberException("이미 존재하는 이메일입니다.");
         }
+        if (!memberCreateReqDto.password().equals(memberCreateReqDto.passwordCheck())) {
+            throw new InvalidMemberException("비밀번호 확인이 다릅니다.");
+        }
 
         Member member = new Member(
             memberCreateReqDto.nickName(),
