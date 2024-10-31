@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
+
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
 
-    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, TokenProvider tokenProvider) {
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder,
+        TokenProvider tokenProvider) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
         this.tokenProvider = tokenProvider;
@@ -29,16 +31,18 @@ public class MemberService {
         }
 
         Member member = new Member(
-                memberCreateReqDto.name(),
-                memberCreateReqDto.email(),
-                passwordEncoder.encode(memberCreateReqDto.pwd())
+            memberCreateReqDto.nickName(),
+            memberCreateReqDto.email(),
+            memberCreateReqDto.city(),
+            memberCreateReqDto.district(),
+            passwordEncoder.encode(memberCreateReqDto.pwd())
         );
         memberRepository.save(member);
     }
 
     public MemberLoginResDto login(MemberLoginReqDto memberLoginReqDto) {
         Member member = memberRepository.findByEmail(memberLoginReqDto.email())
-                .orElseThrow(NotFoundMemberException::new);
+            .orElseThrow(NotFoundMemberException::new);
 
         if (!passwordEncoder.matches(memberLoginReqDto.pwd(), member.getPwd())) {
             throw new InvalidMemberException("패스워드가 일치하지 않습니다.");

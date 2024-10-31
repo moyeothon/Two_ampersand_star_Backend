@@ -1,16 +1,24 @@
 package moyeothon.Team11_TwoAmpersandStar.member.domain;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Transient;
+import moyeothon.Team11_TwoAmpersandStar.member.api.dto.request.MemberUpdateReqDto;
 
 @Entity
 public class Member {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "nickName")
+    private String nickName;
 
     @Column(name = "email")
     private String email;
@@ -18,17 +26,26 @@ public class Member {
     @Column(name = "password")
     private String pwd;
 
+    @Column(name = "city")
+    private String city;
+
+    @Column(name = "district")
+    private String district;
+
     @Lob
     private String pathDate;
 
     @Transient
     private String checkPwd;
 
-    public Member() { }
+    public Member() {
+    }
 
-    public Member(String name, String email, String pwd) {
-        this.name = name;
+    public Member(String nickName, String email, String city, String district, String pwd) {
+        this.nickName = nickName;
         this.email = email;
+        this.city = city;
+        this.district = district;
         this.pwd = pwd;
     }
 
@@ -44,4 +61,10 @@ public class Member {
         return this.pwd.equals(checkPwd);
     }
 
+    public void update(MemberUpdateReqDto memberUpdateReqDto) {
+        this.nickName = nickName;
+        this.pwd = pwd;
+        this.city = city;
+        this.district = district;
+    }
 }
