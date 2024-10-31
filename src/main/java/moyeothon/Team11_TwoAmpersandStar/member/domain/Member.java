@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Transient;
-//import moyeothon.Team11_TwoAmpersandStar.member.api.dto.request.MemberUpdateReqDto;
 
 @Entity
 public class Member {
@@ -24,7 +23,7 @@ public class Member {
     private String email;
 
     @Column(name = "password")
-    private String pwd;
+    private String password;
 
     @Column(name = "city")
     private String city;
@@ -36,33 +35,33 @@ public class Member {
     private String pathDate;
 
     @Transient
-    private String checkPwd;
+    private String passwordCheck;
 
     public Member() {
     }
 
-    public Member(String nickName, String email, String city, String district, String pwd) {
+    public Member(String nickName, String email, String city, String district, String password) {
         this.nickName = nickName;
         this.email = email;
         this.city = city;
         this.district = district;
-        this.pwd = pwd;
+        this.password = password;
     }
 
     public String getEmail() {
         return email;
     }
 
-    public String getPwd() {
-        return pwd;
+    public String getPassword() {
+        return password;
     }
 
-/*
-    public void update(MemberUpdateReqDto memberUpdateReqDto) {
+    public void update(String nickName, String password) {
         this.nickName = nickName;
-        this.pwd = pwd;
-        this.city = city;
-        this.district = district;
+        this.password = password;
     }
-    */
+
+    public String getNickName() {
+        return nickName;
+    }
 }

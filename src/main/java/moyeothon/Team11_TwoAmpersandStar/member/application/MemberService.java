@@ -47,7 +47,7 @@ public class MemberService {
         Member member = memberRepository.findByEmail(memberLoginReqDto.email())
             .orElseThrow(NotFoundMemberException::new);
 
-        if (!passwordEncoder.matches(memberLoginReqDto.password(), member.getPwd())) {
+        if (!passwordEncoder.matches(memberLoginReqDto.password(), member.getPassword())) {
             throw new InvalidMemberException("패스워드가 일치하지 않습니다.");
         }
 
