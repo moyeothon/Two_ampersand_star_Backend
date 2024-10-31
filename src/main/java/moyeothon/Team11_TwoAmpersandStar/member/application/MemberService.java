@@ -35,7 +35,7 @@ public class MemberService {
             memberCreateReqDto.email(),
             memberCreateReqDto.city(),
             memberCreateReqDto.district(),
-            passwordEncoder.encode(memberCreateReqDto.pwd())
+            passwordEncoder.encode(memberCreateReqDto.password())
         );
         memberRepository.save(member);
     }
@@ -44,7 +44,7 @@ public class MemberService {
         Member member = memberRepository.findByEmail(memberLoginReqDto.email())
             .orElseThrow(NotFoundMemberException::new);
 
-        if (!passwordEncoder.matches(memberLoginReqDto.pwd(), member.getPwd())) {
+        if (!passwordEncoder.matches(memberLoginReqDto.password(), member.getPwd())) {
             throw new InvalidMemberException("패스워드가 일치하지 않습니다.");
         }
 

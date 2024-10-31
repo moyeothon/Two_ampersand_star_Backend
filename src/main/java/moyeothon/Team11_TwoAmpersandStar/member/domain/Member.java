@@ -7,7 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.Transient;
-import moyeothon.Team11_TwoAmpersandStar.member.api.dto.request.MemberUpdateReqDto;
+//import moyeothon.Team11_TwoAmpersandStar.member.api.dto.request.MemberUpdateReqDto;
 
 @Entity
 public class Member {
@@ -60,11 +60,12 @@ public class Member {
     private boolean isPasswordMatching(String checkPwd) {
         return this.pwd.equals(checkPwd);
     }
-
+/*
     public void update(MemberUpdateReqDto memberUpdateReqDto) {
         this.nickName = nickName;
         this.pwd = pwd;
         this.city = city;
         this.district = district;
     }
+    */
 }

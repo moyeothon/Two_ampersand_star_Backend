@@ -22,15 +22,15 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> join(@RequestBody MemberCreateReqDto memberCreateReqDto) {
+    public ResponseEntity<Void> join(@RequestBody MemberCreateReqDto memberCreateReqDto) {
         memberService.join(memberCreateReqDto);
-        return new ResponseEntity<>("회원가입", HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<MemberLoginResDto> login(
         @RequestBody MemberLoginReqDto memberLoginReqDto) {
         MemberLoginResDto memberLoginResDto = memberService.login(memberLoginReqDto);
-        return new ResponseEntity<>(memberLoginResDto, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(memberLoginResDto);
     }
 }

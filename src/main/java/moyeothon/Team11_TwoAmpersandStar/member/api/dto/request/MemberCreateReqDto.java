@@ -1,12 +1,12 @@
 package moyeothon.Team11_TwoAmpersandStar.member.api.dto.request;
 
 public record MemberCreateReqDto(
-    String nickName,
     String email,
-    String city,
+    String password,
+    String passwordCheck,
+    String nickName,
     String district,
-    String pwd,
-    String checkPwd
+    String city
 ) {
 
 }
