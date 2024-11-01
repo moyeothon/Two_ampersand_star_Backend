@@ -56,12 +56,14 @@ public class Member {
         return password;
     }
 
+    public String getNickName() {
+        return nickName;
+    }
+
+    public String getDistrict() { return district; }
+
     public void update(String nickName, String password) {
         this.nickName = nickName;
         this.password = password;
-    }
-
-    public String getNickName() {
-        return nickName;
     }
 }

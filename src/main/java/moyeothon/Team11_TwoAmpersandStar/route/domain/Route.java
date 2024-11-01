@@ -5,8 +5,11 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import moyeothon.Team11_TwoAmpersandStar.main.api.dto.response.NearbyRouteResponse;
+import moyeothon.Team11_TwoAmpersandStar.member.domain.Member;
 import moyeothon.Team11_TwoAmpersandStar.route.api.dto.response.RouteResponse;
 
 @Entity
@@ -25,6 +28,9 @@ public class Route {
     @Lob
     private String pathData;
 
+    @ManyToOne
+    private Member member;
+
     protected Route() {
     }
 
@@ -35,6 +41,10 @@ public class Route {
         this.district = district;
         this.speed = speed;
         this.pathData = pathData;
+    }
+
+    public NearbyRouteResponse toNearbyRouteResponse() {
+        return new NearbyRouteResponse(district, pathData);
     }
 
     public RouteResponse toDto() {
