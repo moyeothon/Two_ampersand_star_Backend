@@ -22,13 +22,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("info")
+    @GetMapping("/info")
     public ResponseEntity<MemberInfoResDto> getUser(@AuthenticationPrincipal String email) {
         MemberInfoResDto member = userService.getUser(email);
         return ResponseEntity.status(HttpStatus.OK).body(member);
     }
 
-    @PutMapping("info")
+    @PutMapping("/info")
     public ResponseEntity<Void> updateUser(@AuthenticationPrincipal String email,
         @RequestBody MemberUpdateReqDto memberUpdateReqDto) {
         userService.updateUser(email, memberUpdateReqDto.nickName(), memberUpdateReqDto.password());
