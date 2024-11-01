@@ -87,4 +87,11 @@ public class TokenProvider {
         Member member = memberRepository.findByEmail(claims.getSubject()).orElseThrow();
         return new UsernamePasswordAuthenticationToken(member.getEmail(), "", Collections.emptyList());
     }
+
+    public Member getMemberFromToken(String token) {
+        Authentication authentication = getAuthentication(token);
+        String email = (String) authentication.getPrincipal();
+        return memberRepository.findByEmail(email)
+            .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+    }
 }
