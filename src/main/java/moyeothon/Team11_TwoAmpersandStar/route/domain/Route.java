@@ -11,6 +11,7 @@ import java.time.LocalTime;
 import moyeothon.Team11_TwoAmpersandStar.main.api.dto.response.NearbyRouteResponse;
 import moyeothon.Team11_TwoAmpersandStar.member.domain.Member;
 import moyeothon.Team11_TwoAmpersandStar.route.api.dto.response.RouteResponse;
+import moyeothon.Team11_TwoAmpersandStar.runningInfo.api.dto.response.RunningInfoResponse;
 
 @Entity
 public class Route {
@@ -31,6 +32,10 @@ public class Route {
     @ManyToOne
     private Member member;
 
+    public void setMember(Member member){
+        this.member = member;
+    }
+
     protected Route() {
     }
 
@@ -45,6 +50,10 @@ public class Route {
 
     public NearbyRouteResponse toNearbyRouteResponse() {
         return new NearbyRouteResponse(district, pathData);
+    }
+
+    public RunningInfoResponse toRunningInfoResponse(){
+        return new RunningInfoResponse(date, time, title, district, speed, pathData);
     }
 
     public RouteResponse toDto() {
