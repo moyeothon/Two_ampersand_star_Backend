@@ -8,5 +8,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/running/info")
 public class RunningInfoController {
 
-    ResponseEntity<>
+    // ResponseEntity<>
 }
