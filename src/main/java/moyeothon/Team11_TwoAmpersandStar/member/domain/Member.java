@@ -6,7 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Transient;
+import moyeothon.Team11_TwoAmpersandStar.route.domain.Route;
 
 @Entity
 public class Member {
@@ -37,6 +39,9 @@ public class Member {
     @Transient
     private String passwordCheck;
 
+    @ManyToOne
+    private Route currentRoute;
+
     public Member() {
     }
 
@@ -47,6 +52,8 @@ public class Member {
         this.district = district;
         this.password = password;
     }
+
+    public Long getId() { return id; }
 
     public String getEmail() {
         return email;
@@ -61,6 +68,14 @@ public class Member {
     }
 
     public String getDistrict() { return district; }
+
+    public Route getCurrentRoute() {
+        return currentRoute;
+    }
+
+    public void setCurrentRoute(Route route) {
+        this.currentRoute = route;
+    }
 
     public void update(String nickName, String password) {
         this.nickName = nickName;

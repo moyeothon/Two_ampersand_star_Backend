@@ -30,13 +30,13 @@ public class UserController {
         MemberInfoResDto member = userService.getUser(email);
         return ResponseEntity.status(HttpStatus.OK).body(member);
     }
-    /*
+
     @GetMapping("/complete")
     public ResponseEntity<List<CompleteRouteResponse>> getComplete(@RequestHeader("Authorization") String authorization) {
         List<CompleteRouteResponse> completeRoutes = userService.getComplete(authorization);
         return ResponseEntity.status(HttpStatus.OK).body(completeRoutes);
     }
-    */
+
     @PutMapping("/info")
     public ResponseEntity<Void> updateUser(@AuthenticationPrincipal String email,
         @RequestBody MemberUpdateReqDto memberUpdateReqDto) {

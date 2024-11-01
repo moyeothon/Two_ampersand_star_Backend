@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:h2:file:~/h2db/mydatabase
+    url: jdbc:h2:file:~/h2db/mydatabase  # 데이터베이스 파일 경로
     driver-class-name: org.h2.Driver
     username: sa
     password:
@@ -10,7 +10,7 @@ spring:
       path: /h2-console
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop  # 서버 재시작 시 데이터를 초기화
     properties:
       hibernate:
         show_sql: true

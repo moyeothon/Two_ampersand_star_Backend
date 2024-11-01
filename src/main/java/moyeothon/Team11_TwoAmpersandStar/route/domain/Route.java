@@ -1,14 +1,11 @@
 package moyeothon.Team11_TwoAmpersandStar.route.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
-import jakarta.persistence.ManyToOne;
-import java.time.LocalDate;
-import java.time.LocalTime;
+import jakarta.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import moyeothon.Team11_TwoAmpersandStar.main.api.dto.response.NearbyRouteResponse;
+import moyeothon.Team11_TwoAmpersandStar.main.api.dto.response.ScheduleResponse;
+import moyeothon.Team11_TwoAmpersandStar.member.api.dto.response.CompleteRouteResponse;
 import moyeothon.Team11_TwoAmpersandStar.member.domain.Member;
 import moyeothon.Team11_TwoAmpersandStar.route.api.dto.response.RouteResponse;
 import moyeothon.Team11_TwoAmpersandStar.runningInfo.api.dto.response.RunningInfoResponse;
@@ -29,15 +26,14 @@ public class Route {
     @Lob
     private String pathData;
 
-    @ManyToOne
-    private Member member;
+    @OneToMany(mappedBy = "currentRoute")
+    private List<Member> participants = new ArrayList<>();
 
-    public void setMember(Member member){
-        this.member = member;
+    public void addParticipant(Member member) {
+        participants.add(member);
     }
 
-    protected Route() {
-    }
+    protected Route() {}
 
     public Route(String date, String time, String title, String district, String speed, String pathData) {
         this.date = date;
@@ -48,8 +44,22 @@ public class Route {
         this.pathData = pathData;
     }
 
+    public String getTitle(){ return title; }
+
+    public String getPathData(){ return pathData; }
+
+    public List<Member> getParticipants(){ return participants; }
+
+    public ScheduleResponse toScheduleDto() {
+        return new ScheduleResponse(date, time, title, district, speed, pathData);
+    }
+
     public NearbyRouteResponse toNearbyRouteResponse() {
-        return new NearbyRouteResponse(district, pathData);
+        return new NearbyRouteResponse(title, pathData);
+    }
+
+    public CompleteRouteResponse toCompleteRouteResponse() {
+        return new CompleteRouteResponse(title, pathData);
     }
 
     public RunningInfoResponse toRunningInfoResponse(){

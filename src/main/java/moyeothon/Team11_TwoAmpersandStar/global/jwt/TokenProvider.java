@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 @Component
 public class TokenProvider {
@@ -39,7 +40,7 @@ public class TokenProvider {
 
     @PostConstruct
     public void init() {
-        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS512); // HS512에 적합한 강력한 키 생성
+        this.key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
     }
 
     public String generateToken(String email) {
@@ -53,36 +54,45 @@ public class TokenProvider {
             .compact();
     }
 
+    private String resolveToken(String token) {
+        if (StringUtils.hasText(token) && token.startsWith("Bearer ")) {
+            return token.substring(7).trim();
+        }
+        return token != null ? token.trim() : null;
+    }
+
     public boolean validateToken(String token) {
         try {
+            String resolvedToken = resolveToken(token);
             Jwts.parserBuilder()
                 .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token);
+                .parseClaimsJws(resolvedToken);
             return true;
         } catch (UnsupportedJwtException | MalformedJwtException exception) {
-            log.error("JWT가 유효하지 않습니다.");
+            log.error("유효하지 않은 JWT입니다: {}", exception.getMessage());
             throw new CustomAuthenticationException("JWT가 유효하지 않습니다.");
         } catch (SignatureException exception) {
-            log.error("JWT 서명 검증에 실패했습니다.");
+            log.error("JWT 서명 검증 실패: {}", exception.getMessage());
             throw new CustomAuthenticationException("JWT 서명 검증에 실패했습니다.");
         } catch (ExpiredJwtException exception) {
-            log.error("JWT가 만료되었습니다.");
+            log.error("만료된 JWT입니다: {}", exception.getMessage());
             throw new CustomAuthenticationException("JWT가 만료되었습니다.");
         } catch (IllegalArgumentException exception) {
-            log.error("JWT가 null이거나 비어 있거나 공백만 있습니다.");
-            throw new CustomAuthenticationException("JWT가 null이거나 비어 있거나 공백만 있습니다.");
+            log.error("JWT가 null이거나 공백만 있습니다: {}", exception.getMessage());
+            throw new CustomAuthenticationException("JWT가 null이거나 비어 있습니다.");
         } catch (Exception exception) {
-            log.error("JWT 검증에 실패했습니다.", exception);
+            log.error("JWT 검증 실패", exception);
             throw new CustomAuthenticationException("JWT 검증에 실패했습니다.");
         }
     }
 
     public Authentication getAuthentication(String token) {
+        String resolvedToken = resolveToken(token);
         Claims claims = Jwts.parserBuilder()
             .setSigningKey(key)
             .build()
-            .parseClaimsJws(token)
+            .parseClaimsJws(resolvedToken)
             .getBody();
         Member member = memberRepository.findByEmail(claims.getSubject()).orElseThrow();
         return new UsernamePasswordAuthenticationToken(member.getEmail(), "", Collections.emptyList());
