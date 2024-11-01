@@ -21,7 +21,7 @@ public class MainController {
     public MainController(MainService mainService) {
         this.mainService = mainService;
     }
-
+    /*
     @GetMapping("/schedule")
     public ResponseEntity<ScheduleResponse> getSchedule(
         @RequestHeader("Authorization") String authorization) {
@@ -35,7 +35,7 @@ public class MainController {
         ScheduleRouteResponse ScheduleRoute = mainService.getScheduleRoute(authorization);
         return ResponseEntity.status(HttpStatus.OK).body(ScheduleRoute);
     }
-
+*/
     @GetMapping("/routes")
     public ResponseEntity<List<NearbyRouteResponse>> getNearbyRoutes(
         @RequestHeader("Authorization") String authorization) {
