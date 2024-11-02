@@ -47,7 +47,7 @@ public class SecurityConfig {
         CorsConfiguration configuration = new CorsConfiguration();
 
         configuration.setAllowedOrigins(
-            Arrays.asList("http://localhost:3000")); // 필요한 경우 다른 도메인 추가 가능
+            Arrays.asList("https://trackit-jet.vercel.app")); // 필요한 경우 다른 도메인 추가 가능
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE"));
         configuration.setAllowedHeaders(Arrays.asList("*"));
 
