@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import moyeothon.Team11_TwoAmpersandStar.member.domain.Member;
 
 @Entity
+@Table(name = "completeRoutes")
 public class CompleteRoute {
 
     @Id

@@ -7,10 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 import moyeothon.Team11_TwoAmpersandStar.route.domain.Route;
 
 @Entity
+@Table(name = "members")
 public class Member {
 
     @Id

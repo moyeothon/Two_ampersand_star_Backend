@@ -11,6 +11,7 @@ import moyeothon.Team11_TwoAmpersandStar.route.api.dto.response.RouteResponse;
 import moyeothon.Team11_TwoAmpersandStar.runningInfo.api.dto.response.RunningInfoResponse;
 
 @Entity
+@Table(name = "routes")
 public class Route {
 
     @Id

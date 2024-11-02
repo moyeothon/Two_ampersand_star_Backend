@@ -1,20 +1,28 @@
 spring:
+  profiles:
+    active: prod
+
   datasource:
-    url: jdbc:h2:file:~/h2db/mydatabase  # 데이터베이스 파일 경로
-    driver-class-name: org.h2.Driver
-    username: sa
-    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+
   h2:
     console:
       enabled: true
       path: /h2-console
+
   jpa:
     hibernate:
-      ddl-auto: create-drop  # 서버 재시작 시 데이터를 초기화
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
+      ddl-auto: update
+      format_sql: true
+    show-sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
 
 token:
   expire:
