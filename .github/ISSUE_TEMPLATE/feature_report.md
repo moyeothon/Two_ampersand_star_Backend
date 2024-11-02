@@ -1,7 +1,7 @@
 ---
 name: Feature Report 💡
 about: 새로운 기능 작성
-title: "[Feature]"
+title: "[Feature] "
 labels: 💡새로운 기능
 assignees: ''
 
